@@ -1,0 +1,12 @@
+{
+  "name": "Sijas Farm",
+  "short_name": "Sijas Farm",
+  "description": "Pencatatan produksi, penjualan, stok, dan pengeluaran peternakan ayam petelur.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f8f4",
+  "theme_color": "#2f7d4a",
+  "icons": [
+    {"src":"/assets/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}

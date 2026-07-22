@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#2f7d4a">
+  <meta name="description" content="Sijas Farm — pencatatan produksi, penjualan, stok, dan pengeluaran peternakan ayam petelur.">
+  <title>Sijas Farm</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/assets/icon.svg">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div id="toast" class="toast" aria-live="polite"></div>
+
+  <section id="authScreen" class="auth-screen">
+    <div class="auth-card">
+      <div class="brand large"><img src="/assets/icon.svg" alt=""><div><strong>Sijas Farm</strong><span>Pencatatan peternakan ayam petelur</span></div></div>
+      <form id="loginForm" class="stack">
+        <h1>Masuk</h1>
+        <label>Username<input id="loginUsername" autocomplete="username" required></label>
+        <label>PIN<input id="loginPin" type="password" inputmode="numeric" autocomplete="current-password" minlength="4" required></label>
+        <button class="btn primary" type="submit">Masuk ke Sijas Farm</button>
+      </form>
+      <form id="setupForm" class="stack hidden">
+        <h1>Setup pertama</h1>
+        <p class="muted">Buat akun admin pertama untuk aplikasi ini.</p>
+        <label>Kunci setup<input id="setupKey" type="password" required></label>
+        <label>Nama<input id="setupName" value="Admin Sijas Farm" required></label>
+        <label>Username<input id="setupUsername" value="admin" required></label>
+        <label>PIN<input id="setupPin" type="password" inputmode="numeric" minlength="4" required></label>
+        <button class="btn primary" type="submit">Buat akun admin</button>
+      </form>
+    </div>
+  </section>
+
+  <div id="app" class="app hidden">
+    <aside class="sidebar">
+      <div class="brand"><img src="/assets/icon.svg" alt=""><div><strong>Sijas Farm</strong><span>Farm Dashboard</span></div></div>
+      <nav id="sideNav">
+        <button data-view="dashboard" class="active">Beranda</button>
+        <button data-view="history">Riwayat</button>
+        <button data-view="expenses">Pengeluaran</button>
+        <button data-view="stock">Stok</button>
+        <button data-view="reports">Laporan</button>
+        <button data-view="settings">Pengaturan</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <button id="themeBtn" class="icon-btn">☀️ Tema</button>
+        <button id="logoutBtn" class="icon-btn">Keluar</button>
+      </div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div><p id="greeting" class="eyebrow"></p><h1 id="pageTitle">Beranda</h1></div>
+        <div class="top-actions"><button id="mobileThemeBtn" class="round">☀️</button><div class="user-chip"><span id="userInitial">S</span><div><b id="userName">User</b><small id="userRole">operator</small></div></div></div>
+      </header>
+
+      <section id="view-dashboard" class="view active">
+        <div id="earlyNotice" class="notice hidden">⏰ Pencatatan harian biasanya dilakukan setelah pukul 18.00. Kamu tetap bisa mengisi atau memperbarui data sekarang.</div>
+        <div class="quick-actions">
+          <button class="quick egg" data-open="production"><span>🥚</span><b>Catat Produksi</b><small>Satu rekap per hari</small></button>
+          <button class="quick sale" data-open="sales"><span>🛒</span><b>Catat Penjualan</b><small>Rumahan & Warung</small></button>
+          <button class="quick expense" data-open="expense"><span>🧾</span><b>Catat Pengeluaran</b><small>Pakan dan biaya lainnya</small></button>
+        </div>
+        <div class="stat-grid">
+          <article class="stat"><span>Produksi hari ini</span><strong id="statEggs">—</strong><small id="statWeight">—</small></article>
+          <article class="stat"><span>Terjual hari ini</span><strong id="statSold">—</strong><small>Rumahan + Warung</small></article>
+          <article class="stat"><span>Omzet hari ini</span><strong id="statRevenue">—</strong><small>Nilai transaksi penuh</small></article>
+          <article class="stat"><span>Stok estimasi</span><strong id="statStock">—</strong><small>Dalam kilogram</small></article>
+        </div>
+        <div class="chart-grid">
+          <article class="panel"><div class="panel-head"><div><h2>Produksi harian</h2><p>Naik turun produksi 30 hari terakhir</p></div><select id="productionMetric"><option value="weight_kg">Kilogram</option><option value="egg_count">Butir</option></select></div><div id="productionChart" class="chart"></div></article>
+          <article class="panel"><div class="panel-head"><div><h2>Penjualan harian</h2><p>Volume atau omzet 30 hari terakhir</p></div><select id="salesMetric"><option value="total_weight_kg">Kilogram</option><option value="total_revenue">Omzet</option></select></div><div id="salesChart" class="chart"></div></article>
+        </div>
+      </section>
+
+      <section id="view-history" class="view"><article class="panel"><div class="panel-head"><div><h2>Riwayat 30 hari</h2><p>Rekap produksi dan penjualan</p></div></div><div id="historyTable" class="table-wrap"></div></article></section>
+      <section id="view-expenses" class="view"><div class="section-actions"><button class="btn primary" data-open="expense">+ Tambah pengeluaran</button></div><article class="panel"><h2>Riwayat pengeluaran</h2><div id="expenseTable" class="table-wrap"></div></article></section>
+      <section id="view-stock" class="view"><div class="stat-grid compact"><article class="stat"><span>Stok saat ini</span><strong id="stockPageValue">—</strong><small>Produksi - penjualan ± penyesuaian</small></article></div><div class="section-actions"><button class="btn primary" data-open="adjustment">+ Penyesuaian stok</button></div><article class="panel"><h2>Riwayat penyesuaian stok</h2><div id="adjustmentTable" class="table-wrap"></div></article></section>
+      <section id="view-reports" class="view"><article class="panel"><div class="panel-head"><div><h2>Laporan periode</h2><p>Unduh CSV untuk produksi, penjualan, dan pengeluaran.</p></div><div class="date-range"><input id="reportFrom" type="date"><input id="reportTo" type="date"><button id="loadReportBtn" class="btn">Tampilkan</button></div></div><div id="reportSummary" class="stat-grid compact"></div><div class="export-row"><button id="exportProduction" class="btn">CSV Produksi</button><button id="exportSales" class="btn">CSV Penjualan</button><button id="exportExpenses" class="btn">CSV Pengeluaran</button><button id="exportBackup" class="btn primary">Backup JSON</button></div></article></section>
+      <section id="view-settings" class="view"><article class="panel form-panel"><h2>Pengaturan Sijas Farm</h2><form id="settingsForm" class="form-grid"><label>Nama peternakan<input id="farmName" required></label><label>Tanggal mulai<input id="startDate" type="date"></label><label>Stok awal (kg)<input id="openingStock" type="number" step="0.01" min="0"></label><label>Harga default Rumahan<input id="homePrice" type="number" min="0" step="500"></label><label>Harga default Warung<input id="shopPrice" type="number" min="0" step="500"></label><div class="full"><button class="btn primary" type="submit">Simpan pengaturan</button></div></form></article></section>
+    </main>
+
+    <nav class="bottom-nav">
+      <button data-view="dashboard" class="active">⌂<span>Beranda</span></button><button data-open="production">🥚<span>Produksi</span></button><button data-open="sales">🛒<span>Jual</span></button><button data-view="reports">▥<span>Laporan</span></button><button data-view="settings">⚙<span>Lainnya</span></button>
+    </nav>
+  </div>
+
+  <dialog id="modal"><form method="dialog" class="modal-card"><button class="modal-close" value="cancel">×</button><div id="modalBody"></div></form></dialog>
+  <script src="/app.js" defer></script>
+</body>
+</html>

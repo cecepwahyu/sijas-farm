@@ -1,0 +1,15 @@
+{
+  "name": "sijas-farm",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler pages dev",
+    "db:create": "wrangler d1 create sijas-farm-db",
+    "db:migrate:local": "wrangler d1 migrations apply sijas-farm-db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply sijas-farm-db --remote",
+    "deploy": "wrangler pages deploy public"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

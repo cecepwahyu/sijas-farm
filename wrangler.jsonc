@@ -1,0 +1,13 @@
+{
+  "name": "sijas-farm",
+  "compatibility_date": "2026-07-22",
+  "pages_build_output_dir": "./public",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "sijas-farm-db",
+      "database_id": "cebe1057-d0c5-4308-aa62-197f979288be",
+      "remote": true,
+    },
+  ],
+}
