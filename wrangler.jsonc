@@ -7,7 +7,6 @@
       "binding": "DB",
       "database_name": "sijas-farm-db",
       "database_id": "cebe1057-d0c5-4308-aa62-197f979288be",
-      "remote": true,
     },
   ],
 }
